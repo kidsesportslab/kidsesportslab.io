@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>キッズeスポーツ研究所</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-dark:#1E5C0A;--green-mid:#3A8A1A;--green-light:#5AA02C;
+    --green-pale:#EAF7DC;--green-bright:#7DC84A;--dirt:#8B5E3C;
+    --dirt-dark:#5C3010;--cream:#FDFAF4;--text:#1A1A1A;--text-muted:#555;
+    --pixel:"Share Tech Mono",monospace;--body:"Zen Maru Gothic",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--body);background:var(--cream);color:var(--text);overflow-x:hidden;}
+
+  /* PIXEL BORDERS */
+  .pixel-border-top::before{
+    content:'';display:block;height:16px;
+    background:repeating-linear-gradient(90deg,
+      var(--green-light) 0px,var(--green-light) 16px,
+      var(--green-mid) 16px,var(--green-mid) 32px,
+      var(--green-bright) 32px,var(--green-bright) 48px,
+      var(--green-dark) 48px,var(--green-dark) 64px);
+  }
+  .pixel-border-dirt{
+    height:12px;
+    background:repeating-linear-gradient(90deg,
+      var(--dirt) 0px,var(--dirt) 16px,
+      var(--dirt-dark) 16px,var(--dirt-dark) 32px,
+      #A0702E 32px,#A0702E 48px,
+      var(--dirt-dark) 48px,var(--dirt-dark) 64px);
+  }
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:var(--green-dark);padding:0 24px;height:52px;
+    display:flex;align-items:center;justify-content:space-between;
+    box-shadow:0 2px 12px rgba(0,0,0,0.3);
+  }
+  .nav-logo{font-family:var(--pixel);font-size:13px;color:white;letter-spacing:0.05em;text-decoration:none;}
+  .nav-links{display:flex;gap:24px;list-style:none;}
+  .nav-links a{font-size:12px;color:var(--green-pale);text-decoration:none;font-family:var(--pixel);transition:color 0.2s;}
+  .nav-links a:hover{color:white;}
+  @media(max-width:480px){.nav-links{display:none;}}
+
+  /* HERO */
+  #hero{
+    min-height:100vh;background:var(--green-light);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:80px 24px 40px;position:relative;overflow:hidden;
+  }
+  #hero::before{
+    content:'';position:absolute;inset:0;
+    background-image:linear-gradient(rgba(0,0,0,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.06) 1px,transparent 1px);
+    background-size:32px 32px;
+  }
+  .pixel-deco{position:absolute;border-radius:3px;opacity:0.35;}
+  .hero-content{position:relative;z-index:1;text-align:center;max-width:640px;animation:fadeUp 0.7s ease both;}
+  .hero-badge{
+    display:inline-block;font-family:var(--pixel);font-size:11px;
+    background:var(--green-dark);color:var(--green-pale);
+    padding:4px 14px;border-radius:4px;margin-bottom:20px;letter-spacing:0.1em;
+  }
+  .hero-title{font-size:clamp(32px,8vw,56px);font-weight:900;color:white;line-height:1.2;margin-bottom:16px;text-shadow:4px 4px 0px var(--green-dark);}
+  .hero-title span{color:#FFE566;text-shadow:3px 3px 0px #AA8800;}
+  .hero-sub{font-size:16px;color:var(--green-pale);line-height:1.9;margin-bottom:32px;}
+  .hero-cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .btn-primary{
+    display:inline-block;font-family:var(--pixel);font-size:13px;
+    background:#FFE566;color:var(--green-dark);padding:12px 28px;border-radius:6px;
+    text-decoration:none;font-weight:700;border:3px solid #AA8800;box-shadow:3px 3px 0px #AA8800;
+    transition:transform 0.1s,box-shadow 0.1s;
+  }
+  .btn-primary:hover{transform:translate(2px,2px);box-shadow:1px 1px 0px #AA8800;}
+  .btn-secondary{
+    display:inline-block;font-family:var(--pixel);font-size:13px;
+    background:transparent;color:white;padding:12px 28px;border-radius:6px;
+    text-decoration:none;border:3px solid white;box-shadow:3px 3px 0px rgba(0,0,0,0.2);
+    transition:transform 0.1s,box-shadow 0.1s;
+  }
+  .btn-secondary:hover{transform:translate(2px,2px);box-shadow:1px 1px 0px rgba(0,0,0,0.2);}
+  .hero-char{margin-top:40px;animation:float 3s ease-in-out infinite;}
+
+  /* SECTIONS COMMON */
+  .section-inner{max-width:720px;margin:0 auto;}
+  .section-label{font-family:var(--pixel);font-size:11px;color:var(--green-mid);letter-spacing:0.15em;margin-bottom:8px;}
+  .section-title{font-size:clamp(22px,5vw,32px);font-weight:900;color:var(--green-dark);margin-bottom:24px;line-height:1.3;}
+  .section-title span{border-bottom:4px solid var(--green-bright);}
+
+  /* ABOUT */
+  #about{background:var(--cream);padding:80px 24px;}
+  .about-lead{font-size:15px;line-height:2.1;color:var(--text-muted);margin-bottom:36px;}
+  .about-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:36px;}
+  .about-card{background:var(--green-pale);border-radius:12px;padding:22px 18px;border-left:4px solid var(--green-light);}
+  .about-card .icon{font-size:26px;margin-bottom:10px;}
+  .about-card h3{font-size:15px;font-weight:700;color:var(--green-dark);margin-bottom:6px;}
+  .about-card p{font-size:12px;color:var(--text-muted);line-height:1.8;}
+  .about-profile{background:white;border-radius:14px;padding:28px 24px;border:2px solid var(--green-pale);margin-top:8px;}
+  .about-profile h3{font-size:14px;font-weight:700;color:var(--green-dark);margin-bottom:12px;font-family:var(--pixel);}
+  .about-profile p{font-size:13px;color:var(--text-muted);line-height:2;}
+  .about-profile .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+  .about-profile .tag{font-size:11px;background:var(--green-pale);color:var(--green-dark);padding:3px 10px;border-radius:20px;font-family:var(--pixel);}
+
+  /* NARITA */
+  #narita{background:var(--green-dark);padding:80px 24px;position:relative;overflow:hidden;}
+  #narita::before{
+    content:'';position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);
+    background-size:32px 32px;
+  }
+  #narita .section-label{color:var(--green-bright);}
+  #narita .section-title{color:white;}
+  .narita-lead{font-size:15px;color:rgba(255,255,255,0.72);line-height:2.1;margin-bottom:32px;position:relative;z-index:1;}
+  .narita-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;position:relative;z-index:1;}
+  .narita-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:24px 20px;position:relative;}
+  .narita-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--green-bright);border-radius:12px 12px 0 0;}
+  .narita-card h3{font-family:var(--pixel);font-size:12px;color:var(--green-bright);margin-bottom:10px;letter-spacing:0.05em;}
+  .narita-card p{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.8;}
+  .narita-stat{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;position:relative;z-index:1;}
+  .narita-stat-item{background:rgba(255,255,255,0.08);border-radius:10px;padding:16px 20px;flex:1;min-width:140px;}
+  .narita-stat-item .num{font-family:var(--pixel);font-size:26px;color:#FFE566;margin-bottom:4px;}
+  .narita-stat-item .desc{font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6;}
+
+  /* EVENT */
+  #event{background:var(--cream);padding:80px 24px;}
+  .event-hero-box{
+    background:var(--green-dark);border-radius:16px;padding:36px 32px;
+    margin-bottom:24px;position:relative;overflow:hidden;
+  }
+  .event-hero-box::before{
+    content:'';position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);
+    background-size:24px 24px;
+  }
+  .event-hero-box .event-tag{
+    display:inline-block;font-family:var(--pixel);font-size:10px;
+    background:var(--green-bright);color:var(--green-dark);
+    padding:3px 10px;border-radius:4px;margin-bottom:14px;letter-spacing:0.08em;position:relative;z-index:1;
+  }
+  .event-hero-box h3{font-size:22px;font-weight:900;color:white;margin-bottom:12px;position:relative;z-index:1;}
+  .event-hero-box p{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.9;margin-bottom:24px;position:relative;z-index:1;}
+  .event-meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:24px;position:relative;z-index:1;}
+  .event-meta-item{background:rgba(255,255,255,0.08);border-radius:8px;padding:12px 14px;}
+  .event-meta-item .label{font-family:var(--pixel);font-size:10px;color:var(--green-bright);margin-bottom:4px;}
+  .event-meta-item .value{font-size:13px;color:white;font-weight:600;}
+  .event-cta-row{display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:1;}
+  .btn-event{
+    display:inline-block;font-family:var(--pixel);font-size:13px;
+    background:#FFE566;color:var(--green-dark);padding:14px 32px;
+    border-radius:8px;text-decoration:none;font-weight:700;
+    border:3px solid #AA8800;box-shadow:4px 4px 0px #AA8800;
+    transition:transform 0.1s,box-shadow 0.1s;
+  }
+  .btn-event:hover{transform:translate(2px,2px);box-shadow:2px 2px 0px #AA8800;}
+  .btn-event-sub{
+    display:inline-block;font-family:var(--pixel);font-size:13px;
+    background:transparent;color:white;padding:14px 28px;
+    border-radius:8px;text-decoration:none;
+    border:3px solid rgba(255,255,255,0.5);
+    transition:border-color 0.2s;
+  }
+  .btn-event-sub:hover{border-color:white;}
+
+  .event-flow{background:var(--green-pale);border-radius:14px;padding:28px 24px;margin-bottom:24px;}
+  .event-flow h4{font-family:var(--pixel);font-size:12px;color:var(--green-dark);margin-bottom:16px;letter-spacing:0.08em;}
+  .flow-list{display:flex;flex-direction:column;gap:0;}
+  .flow-item{display:flex;gap:16px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(90,160,44,0.2);}
+  .flow-item:last-child{border-bottom:none;}
+  .flow-time{font-family:var(--pixel);font-size:12px;color:var(--green-mid);min-width:50px;margin-top:2px;}
+  .flow-text{font-size:13px;color:var(--text);line-height:1.6;}
+  .flow-text strong{color:var(--green-dark);}
+
+  .event-rules{background:white;border-radius:14px;padding:28px 24px;border:2px solid var(--green-pale);}
+  .event-rules h4{font-family:var(--pixel);font-size:12px;color:var(--green-dark);margin-bottom:16px;letter-spacing:0.08em;}
+  .rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;}
+  .rule-item{display:flex;gap:10px;align-items:flex-start;}
+  .rule-dot{width:8px;height:8px;background:var(--green-light);border-radius:2px;margin-top:5px;flex-shrink:0;}
+  .rule-text{font-size:13px;color:var(--text-muted);line-height:1.7;}
+
+  /* INSTAGRAM */
+  #instagram{background:var(--green-light);padding:80px 24px;text-align:center;}
+  #instagram .section-label{color:var(--green-pale);}
+  #instagram .section-title{color:white;}
+  .insta-note{font-size:14px;color:var(--green-pale);line-height:1.9;margin-bottom:20px;}
+  .insta-handle{
+    display:inline-block;font-family:var(--pixel);font-size:20px;
+    color:#FFE566;background:var(--green-dark);padding:14px 32px;
+    border-radius:8px;text-decoration:none;margin:8px 0 20px;
+    border:3px solid #AA8800;box-shadow:4px 4px 0px #AA8800;
+    transition:transform 0.1s,box-shadow 0.1s;
+  }
+  .insta-handle:hover{transform:translate(2px,2px);box-shadow:2px 2px 0px #AA8800;}
+  .insta-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px;}
+  .insta-tag{font-family:var(--pixel);font-size:11px;color:var(--green-pale);background:rgba(0,0,0,0.2);padding:4px 12px;border-radius:20px;}
+
+  /* CONTACT */
+  #contact{background:var(--cream);padding:80px 24px;}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media(max-width:600px){.contact-grid{grid-template-columns:1fr;}}
+  .contact-info{background:var(--green-dark);border-radius:14px;padding:28px 24px;}
+  .contact-info h4{font-family:var(--pixel);font-size:12px;color:var(--green-bright);margin-bottom:16px;letter-spacing:0.08em;}
+  .contact-info p{font-size:13px;color:rgba(255,255,255,0.75);line-height:2;margin-bottom:20px;}
+  .contact-mail-link{
+    display:inline-block;font-family:var(--pixel);font-size:12px;
+    color:#FFE566;background:rgba(255,255,255,0.08);
+    padding:10px 18px;border-radius:8px;text-decoration:none;
+    border:1px solid rgba(255,229,102,0.4);
+    transition:background 0.2s;word-break:break-all;
+  }
+  .contact-mail-link:hover{background:rgba(255,255,255,0.15);}
+  .contact-form-box{background:white;border-radius:14px;padding:28px 24px;border:2px solid var(--green-pale);}
+  .contact-form-box h4{font-family:var(--pixel);font-size:12px;color:var(--green-dark);margin-bottom:20px;letter-spacing:0.08em;}
+  .form-group{margin-bottom:16px;}
+  .form-group label{display:block;font-size:12px;font-weight:700;color:var(--green-dark);margin-bottom:6px;}
+  .form-group input,.form-group select,.form-group textarea{
+    width:100%;border:2px solid var(--green-pale);border-radius:8px;
+    padding:10px 12px;font-family:var(--body);font-size:13px;color:var(--text);
+    background:var(--cream);outline:none;transition:border-color 0.2s;
+  }
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--green-bright);}
+  .form-group textarea{resize:vertical;min-height:100px;}
+  .form-note{font-size:11px;color:var(--text-muted);margin-top:4px;}
+  .btn-submit{
+    width:100%;font-family:var(--pixel);font-size:13px;
+    background:var(--green-light);color:white;padding:14px;
+    border-radius:8px;border:3px solid var(--green-dark);
+    box-shadow:3px 3px 0px var(--green-dark);
+    cursor:pointer;transition:transform 0.1s,box-shadow 0.1s;
+  }
+  .btn-submit:hover{transform:translate(2px,2px);box-shadow:1px 1px 0px var(--green-dark);}
+  .form-success{display:none;text-align:center;padding:20px;font-size:14px;color:var(--green-dark);font-weight:700;}
+
+  /* FOOTER */
+  footer{background:var(--green-dark);padding:28px 24px;text-align:center;}
+  footer p{font-family:var(--pixel);font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.08em;}
+
+  /* ANIMATIONS */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes float{0%,100%{transform:translateY(0px);}50%{transform:translateY(-8px);}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">🌿 キッズeスポーツ研究所</a>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#narita">成田</a></li>
+    <li><a href="#event">event</a></li>
+    <li><a href="#instagram">instagram</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="pixel-deco" style="width:28px;height:28px;background:#4A8A22;top:14%;left:6%;"></div>
+  <div class="pixel-deco" style="width:18px;height:18px;background:#7DC84A;top:22%;left:10%;"></div>
+  <div class="pixel-deco" style="width:22px;height:22px;background:#4A8A22;top:18%;right:8%;"></div>
+  <div class="pixel-deco" style="width:14px;height:14px;background:#7DC84A;top:28%;right:14%;"></div>
+  <div class="pixel-deco" style="width:20px;height:20px;background:#2C6B10;bottom:22%;left:8%;"></div>
+  <div class="pixel-deco" style="width:16px;height:16px;background:#6EC235;bottom:18%;right:10%;"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">📍 千葉県成田市</div>
+    <h1 class="hero-title">ゲームで<span>遊び</span>、<br>ゲームで<span>育つ</span>。</h1>
+    <p class="hero-sub">
+      キッズeスポーツ研究所は、成田市を拠点に<br>
+      子どもとeスポーツを楽しむコミュニティです。<br>
+      ゲームを通じた遊び・学び・成長の場を<br>
+      地域に作ることを目指しています。
+    </p>
+    <div class="hero-cta-row">
+      <a href="#event" class="btn-primary">🎮 イベント情報</a>
+      <a href="#contact" class="btn-secondary">お問い合わせ</a>
+    </div>
+    <div class="hero-char">
+      <svg width="120" height="130" viewBox="0 0 120 130" xmlns="http://www.w3.org/2000/svg">
+        <rect x="38" y="8"  width="44" height="40" rx="5" fill="#F5B8A0"/>
+        <rect x="38" y="8"  width="44" height="12" rx="4" fill="#3D2000"/>
+        <rect x="38" y="16" width="9"  height="14" rx="3" fill="#3D2000"/>
+        <rect x="73" y="16" width="9"  height="14" rx="3" fill="#3D2000"/>
+        <rect x="46" y="26" width="10" height="10" rx="2" fill="#111"/>
+        <rect x="64" y="26" width="10" height="10" rx="2" fill="#111"/>
+        <rect x="48" y="28" width="4"  height="4"  rx="1" fill="white" opacity="0.9"/>
+        <rect x="66" y="28" width="4"  height="4"  rx="1" fill="white" opacity="0.9"/>
+        <circle cx="44" cy="42" r="5" fill="#F0907A" opacity="0.5"/>
+        <circle cx="76" cy="42" r="5" fill="#F0907A" opacity="0.5"/>
+        <rect x="50" y="42" width="20" height="4" rx="2" fill="#C8705A"/>
+        <rect x="34" y="50" width="52" height="40" rx="6" fill="#2255CC"/>
+        <rect x="44" y="58" width="32" height="5"  rx="2" fill="#1A44AA" opacity="0.6"/>
+        <rect x="10" y="50" width="22" height="52" rx="6" fill="#F5B8A0"/>
+        <rect x="10" y="50" width="22" height="14" rx="4" fill="#2255CC"/>
+        <rect x="88" y="50" width="22" height="52" rx="6" fill="#F5B8A0"/>
+        <rect x="88" y="50" width="22" height="14" rx="4" fill="#2255CC"/>
+        <rect x="40" y="88" width="16" height="34" rx="5" fill="#2A4A8A"/>
+        <rect x="64" y="88" width="16" height="34" rx="5" fill="#2A4A8A"/>
+        <rect x="36" y="112" width="24" height="10" rx="4" fill="#111"/>
+        <rect x="60" y="112" width="24" height="10" rx="4" fill="#111"/>
+        <rect x="14" y="96" width="92" height="30" rx="14" fill="#1A1A1A"/>
+        <ellipse cx="24" cy="124" rx="12" ry="8" fill="#1A1A1A"/>
+        <ellipse cx="96" cy="124" rx="12" ry="8" fill="#1A1A1A"/>
+        <rect x="24" y="104" width="5"  height="14" rx="2" fill="#444"/>
+        <rect x="19" y="109" width="14" height="5"  rx="2" fill="#444"/>
+        <circle cx="82" cy="106" r="4" fill="#6BCB77"/>
+        <circle cx="91" cy="113" r="4" fill="#FFD93D"/>
+        <circle cx="73" cy="113" r="4" fill="#FF6B6B"/>
+        <circle cx="82" cy="120" r="4" fill="#4D96FF"/>
+        <circle cx="60" cy="112" r="5" fill="#333"/>
+        <circle cx="60" cy="112" r="2" fill="#5AA02C"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="pixel-border-dirt"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">ABOUT</div>
+    <h2 class="section-title">ゲームは、<span>可能性</span>の場所。</h2>
+    <p class="about-lead">
+      「ゲームばかりして…」と心配する前に、少しだけ立ち止まってみてください。<br>
+      ゲームの中には、問題を解くワクワク、仲間と協力する喜び、<br>
+      自分の力で何かを作り上げる達成感があります。<br><br>
+      キッズeスポーツ研究所は、そんなゲームの良さを引き出しながら、<br>
+      子どもたちが安心して成長できる場所を成田に作ることを目指しています。
+    </p>
+    <div class="about-cards">
+      <div class="about-card">
+        <div class="icon">🎮</div>
+        <h3>遊ぶ</h3>
+        <p>楽しさを中心に。ゲームを通じてのびのび表現する場を地域に作ります。</p>
+      </div>
+      <div class="about-card">
+        <div class="icon">📚</div>
+        <h3>学ぶ</h3>
+        <p>論理的思考・チームワーク・問題解決力をゲームを通じて自然に身につけます。</p>
+      </div>
+      <div class="about-card">
+        <div class="icon">🌱</div>
+        <h3>育つ</h3>
+        <p>子どもも保護者も一緒に成長できる、地域のコミュニティを目指します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pixel-border-top"></div>
+
+<!-- NARITA -->
+<section id="narita">
+  <div class="section-inner" style="position:relative;z-index:1;">
+    <div class="section-label">NARITA</div>
+    <h2 class="section-title">なぜ、<span style="border-bottom:4px solid var(--green-bright)">成田</span>なのか。</h2>
+    <p class="narita-lead">
+      成田市は空港・成田山・田んぼが共存する、個性豊かなまちです。<br>
+      都市でも郊外でもない、この「成田らしさ」の中に、<br>
+      eスポーツが根付く余白があると信じています。<br>
+      成田生まれ・成田育ちの自分だからこそ、ここから始めます。
+    </p>
+    <div class="narita-grid">
+      <div class="narita-card">
+        <h3>地域の空白地帯</h3>
+        <p>成田エリアにeスポーツの地域イベントはまだほとんど存在しない。だからこそ、先に始める意味があります。</p>
+      </div>
+      <div class="narita-card">
+        <h3>子どもが多いまち</h3>
+        <p>千葉県北部の中心都市・成田市。小学生・中学生が多く、地域イベントの受け皿が求められています。</p>
+      </div>
+      <div class="narita-card">
+        <h3>地元愛を形に</h3>
+        <p>成田生まれ・成田育ちの運営者が、地元の子どもたちのために作るコミュニティです。</p>
+      </div>
+      <div class="narita-card">
+        <h3>市場が本格化中</h3>
+        <p>高校eスポーツ部は過去3年で急増。千葉県内でも参加校が増えており、地域への波及が始まっています。</p>
+      </div>
+    </div>
+    <div class="narita-stat">
+      <div class="narita-stat-item">
+        <div class="num">18x</div>
+        <div class="desc">過去3年で高校eスポーツ部が増加した倍率</div>
+      </div>
+      <div class="narita-stat-item">
+        <div class="num">7,692</div>
+        <div class="desc">STAGE:0 2024 全国参加者数</div>
+      </div>
+      <div class="narita-stat-item">
+        <div class="num">0</div>
+        <div class="desc">成田エリアの子ども向けeスポーツイベント（現在）</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pixel-border-top" style="transform:rotate(180deg);"></div>
+
+<!-- EVENT -->
+<section id="event">
+  <div class="section-inner">
+    <div class="section-label">EVENT</div>
+    <h2 class="section-title">次のイベント</h2>
+
+    <div class="event-hero-box">
+      <div class="event-tag">🎮 参加者募集予定　2026年7月告知開始</div>
+      <h3>第1回 成田こどもMinecraft建築大会<br>「わたしの知ってる成田」</h3>
+      <p>
+        成田山・空港・田んぼ・お祭り…あなたの知っている成田を<br>
+        Minecraftで自由に表現してください！<br>
+        2〜3人チームで協力して建築し、みんなで発表し合います。<br>
+        勝敗より「作る・伝える・楽しむ」を大切にしたイベントです。
+      </p>
+      <div class="event-meta-grid">
+        <div class="event-meta-item">
+          <div class="label">DATE</div>
+          <div class="value">2026年9月（土日）</div>
+        </div>
+        <div class="event-meta-item">
+          <div class="label">FORMAT</div>
+          <div class="value">オンライン開催</div>
+        </div>
+        <div class="event-meta-item">
+          <div class="label">TARGET</div>
+          <div class="value">小学1〜6年生</div>
+        </div>
+        <div class="event-meta-item">
+          <div class="label">TEAM</div>
+          <div class="value">2〜3人チーム戦</div>
+        </div>
+        <div class="event-meta-item">
+          <div class="label">FEE</div>
+          <div class="value">無料〜500円予定</div>
+        </div>
+        <div class="event-meta-item">
+          <div class="label">PLATFORM</div>
+          <div class="value">統合版（REALMS）</div>
+        </div>
+      </div>
+      <div class="event-cta-row">
+        <a href="https://www.instagram.com/kids.esports.lab" target="_blank" class="btn-event">📸 Instagramで最新情報をチェック</a>
+        <a href="#contact" class="btn-event-sub">お問い合わせ・事前登録</a>
+      </div>
+    </div>
+
+    <div class="event-flow">
+      <h4>// TIMETABLE（予定）</h4>
+      <div class="flow-list">
+        <div class="flow-item"><div class="flow-time">13:00</div><div class="flow-text"><strong>開会・ルール説明</strong>　チーム顔合わせ・操作確認</div></div>
+        <div class="flow-item"><div class="flow-time">13:20</div><div class="flow-text"><strong>建築スタート</strong>　テーマに沿って90分間自由に建築</div></div>
+        <div class="flow-item"><div class="flow-time">14:50</div><div class="flow-text"><strong>建築終了</strong>　スクリーンショット提出</div></div>
+        <div class="flow-item"><div class="flow-time">15:00</div><div class="flow-text"><strong>発表タイム</strong>　各チーム3〜4分で作品を紹介</div></div>
+        <div class="flow-item"><div class="flow-time">15:30</div><div class="flow-text"><strong>投票・審査</strong>　参加者投票＋審査員採点</div></div>
+        <div class="flow-item"><div class="flow-time">15:45</div><div class="flow-text"><strong>結果発表・表彰</strong>　記念撮影</div></div>
+        <div class="flow-item"><div class="flow-time">16:00</div><div class="flow-text"><strong>閉会</strong>　アンケート記入</div></div>
+      </div>
+    </div>
+
+    <div class="event-rules">
+      <h4>// 審査基準</h4>
+      <div class="rules-grid">
+        <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>成田感（40%）</strong><br>成田らしさが伝わるか</div></div>
+        <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>創造性（30%）</strong><br>オリジナリティ・工夫があるか</div></div>
+        <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>発表力（20%）</strong><br>想いを言葉で伝えられたか</div></div>
+        <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>人気投票（10%）</strong><br>参加者みんなの投票</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section id="instagram">
+  <div class="section-inner">
+    <div class="section-label">INSTAGRAM</div>
+    <h2 class="section-title">最新情報はInstagramで</h2>
+    <p class="insta-note">
+      毎週月・水・金に投稿しています。<br>
+      子育て×ゲーム情報、Minecraftのコツ、イベント告知など。
+    </p>
+    <a href="https://www.instagram.com/kids.esports.lab" target="_blank" class="insta-handle">
+      @kids.esports.lab
+    </a>
+    <p class="insta-note">フォローして最新イベント情報をチェック！</p>
+    <div class="insta-tags">
+      <span class="insta-tag">#マイクラ</span>
+      <span class="insta-tag">#eスポーツ</span>
+      <span class="insta-tag">#子育て</span>
+      <span class="insta-tag">#千葉</span>
+      <span class="insta-tag">#成田市</span>
+      <span class="insta-tag">#ゲームと育児</span>
+    </div>
+  </div>
+</section>
+
+<div class="pixel-border-dirt"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">CONTACT</div>
+    <h2 class="section-title">お問い合わせ</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h4>// GET IN TOUCH</h4>
+        <p>
+          イベントへの参加・事前登録、<br>
+          学校や団体との連携、<br>
+          取材・メディア掲載など、<br>
+          お気軽にご連絡ください。<br><br>
+          2営業日以内にご返信いたします。
+        </p>
+        <a href="mailto:kids.esports.lab@gmail.com" class="contact-mail-link">
+          📧 kids.esports.lab@gmail.com
+        </a>
+      </div>
+      <div class="contact-form-box">
+        <h4>// QUICK MESSAGE</h4>
+        <form id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label>お名前</label>
+            <input type="text" placeholder="山田 太郎" required>
+          </div>
+          <div class="form-group">
+            <label>メールアドレス</label>
+            <input type="email" placeholder="example@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>お問い合わせ種別</label>
+            <select>
+              <option value="">選択してください</option>
+              <option>イベント参加・事前登録</option>
+              <option>学校・団体との連携</option>
+              <option>取材・メディア掲載</option>
+              <option>その他</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>メッセージ</label>
+            <textarea placeholder="お気軽にどうぞ！" required></textarea>
+            <div class="form-note">※ 返信はメールにてお送りします</div>
+          </div>
+          <button type="submit" class="btn-submit">送信する →</button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          ✅ 送信しました！<br>2営業日以内にご返信します。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 キッズeスポーツ研究所　@kids.esports.lab　千葉県成田市</p>
+</footer>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = document.getElementById('contactForm');
+  const success = document.getElementById('formSuccess');
+  const data = new FormData(form);
+  const name    = form.querySelector('input[type=text]').value;
+  const email   = form.querySelector('input[type=email]').value;
+  const type    = form.querySelector('select').value;
+  const message = form.querySelector('textarea').value;
+  const subject = encodeURIComponent('【キッズeスポーツ研究所】お問い合わせ：' + (type || 'その他'));
+  const body    = encodeURIComponent(
+    'お名前：' + name + '\n' +
+    'メール：' + email + '\n' +
+    '種別：'   + type + '\n\n' +
+    message
+  );
+  window.location.href = 'mailto:kids.esports.lab@gmail.com?subject=' + subject + '&body=' + body;
+  form.style.display = 'none';
+  success.style.display = 'block';
+}
+</script>
+
+</body>
+</html>

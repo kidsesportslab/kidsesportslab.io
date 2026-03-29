@@ -247,13 +247,13 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#hero" class="nav-logo">🌿 キッズeスポーツ研究所</a>
+  <a href="javascript:void(0)" class="nav-logo" >🌿 キッズeスポーツ研究所</a>
   <ul class="nav-links">
-    <li><a href="#about">about</a></li>
-    <li><a href="#narita">成田</a></li>
-    <li><a href="#event">event</a></li>
-    <li><a href="#instagram">instagram</a></li>
-    <li><a href="#contact">contact</a></li>
+    <li><a href="javascript:void(0)" data-scroll="about">about</a></li>
+    <li><a href="javascript:void(0)" data-scroll="narita">成田</a></li>
+    <li><a href="javascript:void(0)" data-scroll="event">event</a></li>
+    <li><a href="javascript:void(0)" data-scroll="instagram">instagram</a></li>
+    <li><a href="javascript:void(0)" data-scroll="contact">contact</a></li>
   </ul>
 </nav>
 
@@ -276,8 +276,8 @@
       地域に作ることを目指しています。
     </p>
     <div class="hero-cta-row">
-      <a href="#event" class="btn-primary">🎮 イベント情報</a>
-      <a href="#contact" class="btn-secondary">お問い合わせ</a>
+      <a href="javascript:void(0)" data-scroll="event" class="btn-primary">🎮 イベント情報</a>
+      <a href="javascript:void(0)" data-scroll="contact" class="btn-secondary">お問い合わせ</a>
     </div>
     <div class="hero-char">
       <svg width="120" height="130" viewBox="0 0 120 130" xmlns="http://www.w3.org/2000/svg">
@@ -347,6 +347,21 @@
         <div class="icon">🌱</div>
         <h3>育つ</h3>
         <p>子どもも保護者も一緒に成長できる、地域のコミュニティを目指します。</p>
+      </div>
+    </div>
+    <div class="about-profile">
+      <h3>// ORGANIZER</h3>
+      <p>
+        千葉県成田市生まれ・成田育ち。法政大学経済学部卒。<br>
+        財務コンサル・経理代行を経て独立。現在は中小企業の外部経理責任者として活動しながら、<br>
+        地元成田にeスポーツの地域インフラを作ることを目指してキッズeスポーツ研究所を立ち上げ。<br>
+        APEX・Valorant・Minecraft・スプラトゥーンなど幅広いゲーム歴あり。妻・3歳の娘と成田在住。
+      </p>
+      <div class="tags">
+        <span class="tag">📍 成田市</span>
+        <span class="tag">🎮 ゲーム歴あり</span>
+        <span class="tag">💼 経理×業務改善</span>
+        <span class="tag">👨‍👧 1児の父</span>
       </div>
     </div>
   </div>
@@ -445,7 +460,7 @@
       </div>
       <div class="event-cta-row">
         <a href="https://www.instagram.com/kids.esports.lab" target="_blank" class="btn-event">📸 Instagramで最新情報をチェック</a>
-        <a href="#contact" class="btn-event-sub">お問い合わせ・事前登録</a>
+        <a href="javascript:void(0)" data-scroll="contact" class="btn-event-sub">お問い合わせ・事前登録</a>
       </div>
     </div>
 
@@ -521,35 +536,28 @@
       </div>
       <div class="contact-form-box">
         <h4>// QUICK MESSAGE</h4>
-        <form id="contactForm" onsubmit="handleSubmit(event)">
-          <div class="form-group">
-            <label>お名前</label>
-            <input type="text" placeholder="山田 太郎" required>
-          </div>
-          <div class="form-group">
-            <label>メールアドレス</label>
-            <input type="email" placeholder="example@email.com" required>
-          </div>
-          <div class="form-group">
-            <label>お問い合わせ種別</label>
-            <select>
-              <option value="">選択してください</option>
-              <option>イベント参加・事前登録</option>
-              <option>学校・団体との連携</option>
-              <option>取材・メディア掲載</option>
-              <option>その他</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>メッセージ</label>
-            <textarea placeholder="お気軽にどうぞ！" required></textarea>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:24px;">
+          下のボタンからGoogleフォームでお問い合わせいただけます。<br>
+          イベント参加・学校連携・取材など、お気軽にどうぞ！
+        </p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd8rY2VoXYO6IM5QYZt5bY_grSU8IKigBWT_BdR-l6cwuJxRw/viewform?usp=dialog"
+           target="_blank"
+           style="display:block;text-align:center;font-family:var(--pixel);font-size:13px;
+                  background:var(--green-light);color:white;padding:16px;
+                  border-radius:8px;border:3px solid var(--green-dark);
+                  box-shadow:3px 3px 0px var(--green-dark);text-decoration:none;
+                  transition:transform 0.1s,box-shadow 0.1s;"
+           onmouseover="this.style.transform='translate(2px,2px)';this.style.boxShadow='1px 1px 0px var(--green-dark)'"
+           onmouseout="this.style.transform='';this.style.boxShadow='3px 3px 0px var(--green-dark)'">
+          📝 お問い合わせフォームを開く →
+        </a>
+        <p style="font-size:11px;color:var(--text-muted);margin-top:12px;text-align:center;">
+          ※ Googleフォームが開きます
+        </p>
+        <!-- ダミーのform（削除済みテキストの代わり -->
+        <div style="display:none"><textarea>
             <div class="form-note">※ 返信はメールにてお送りします</div>
-          </div>
-          <button type="submit" class="btn-submit">送信する →</button>
-        </form>
-        <div class="form-success" id="formSuccess">
-          ✅ 送信しました！<br>2営業日以内にご返信します。
-        </div>
+        </div></div>
       </div>
     </div>
   </div>
@@ -560,27 +568,17 @@
 </footer>
 
 <script>
-function handleSubmit(e) {
-  e.preventDefault();
-  const form = document.getElementById('contactForm');
-  const success = document.getElementById('formSuccess');
-  const data = new FormData(form);
-  const name    = form.querySelector('input[type=text]').value;
-  const email   = form.querySelector('input[type=email]').value;
-  const type    = form.querySelector('select').value;
-  const message = form.querySelector('textarea').value;
-  const subject = encodeURIComponent('【キッズeスポーツ研究所】お問い合わせ：' + (type || 'その他'));
-  const body    = encodeURIComponent(
-    'お名前：' + name + '\n' +
-    'メール：' + email + '\n' +
-    '種別：'   + type + '\n\n' +
-    message
-  );
-  window.location.href = 'mailto:kids.esports.lab@gmail.com?subject=' + subject + '&body=' + body;
-  form.style.display = 'none';
-  success.style.display = 'block';
-}
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('[data-scroll]').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.getElementById(el.getAttribute('data-scroll'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+});
 </script>
-
 </body>
 </html>

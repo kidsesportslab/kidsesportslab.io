@@ -247,13 +247,13 @@
 
 <!-- NAV -->
 <nav>
-  <a href="javascript:void(0)" class="nav-logo" >🌿 キッズeスポーツ研究所</a>
+  <a href="#hero" class="nav-logo" >🌿 キッズeスポーツ研究所</a>
   <ul class="nav-links">
-    <li><a href="javascript:void(0)" data-scroll="about">about</a></li>
-    <li><a href="javascript:void(0)" data-scroll="narita">成田</a></li>
-    <li><a href="javascript:void(0)" data-scroll="event">event</a></li>
-    <li><a href="javascript:void(0)" data-scroll="instagram">instagram</a></li>
-    <li><a href="javascript:void(0)" data-scroll="contact">contact</a></li>
+    <li><a href="#about">about</a></li>
+    <li><a href="#narita">成田</a></li>
+    <li><a href="#event">event</a></li>
+    <li><a href="#instagram">instagram</a></li>
+    <li><a href="#contact">contact</a></li>
   </ul>
 </nav>
 
@@ -276,8 +276,8 @@
       地域に作ることを目指しています。
     </p>
     <div class="hero-cta-row">
-      <a href="javascript:void(0)" data-scroll="event" class="btn-primary">🎮 イベント情報</a>
-      <a href="javascript:void(0)" data-scroll="contact" class="btn-secondary">お問い合わせ</a>
+      <a href="#event" class="btn-primary">🎮 イベント情報</a>
+      <a href="#contact" class="btn-secondary">お問い合わせ</a>
     </div>
     <div class="hero-char">
       <svg width="120" height="130" viewBox="0 0 120 130" xmlns="http://www.w3.org/2000/svg">
@@ -460,7 +460,7 @@
       </div>
       <div class="event-cta-row">
         <a href="https://www.instagram.com/kids.esports.lab" target="_blank" class="btn-event">📸 Instagramで最新情報をチェック</a>
-        <a href="javascript:void(0)" data-scroll="contact" class="btn-event-sub">お問い合わせ・事前登録</a>
+        <a href="#contact" class="btn-event-sub">お問い合わせ・事前登録</a>
       </div>
     </div>
 
@@ -568,17 +568,6 @@
 </footer>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('[data-scroll]').forEach(function(el) {
-    el.addEventListener('click', function(e) {
-      e.preventDefault();
-      var target = document.getElementById(el.getAttribute('data-scroll'));
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-});
 </script>
 </body>
 </html>
